@@ -1,0 +1,25 @@
+- name: Run Python scripts on different servers
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Copy hello_1.py to server1
+      when: inventory_hostname == "server1"
+      copy:
+        src: hello_1.py
+        dest: /tmp/hello_1.py
+        mode: '0755'
+
+    - name: Run hello_1.py on server1
+      when: inventory_hostname == "server1"
+      shell: python3 /tmp/hello_1.py
+
+    - name: Copy hello_2.py to server2
+      when: inventory_hostname == "server2"
+      copy:
+        src: hello_2.py
+        dest: /tmp/hello_2.py
+        mode: '0755'
+
+    - name: Run hello_2.py on server2
+      when: inventory_hostname == "server2"
+      shell: python3 /tmp/hello_2.py
